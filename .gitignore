@@ -1,0 +1,10 @@
+build/
+run/
+run-data/
+.gradle/
+.idea/
+*.iml
+out/
+classes/
+mcmodsrepo/
+src/generated/

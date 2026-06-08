@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.clayborn.accurateblockplacement.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "GameRendererMixin",
+    "MinecraftMixin",
+    "KeyMappingMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
