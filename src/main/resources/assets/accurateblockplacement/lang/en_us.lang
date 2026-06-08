@@ -1,0 +1,4 @@
+key.accurateblockplacement.toggle=Toggle Placement Mode
+key.categories.accurateblockplacement=Accurate Block Placement
+message.accurateblockplacement.enabled=Accurate block placement mode is now enabled!
+message.accurateblockplacement.disabled=Vanilla block placement mode is now enabled!

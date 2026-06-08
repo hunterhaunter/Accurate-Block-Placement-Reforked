@@ -1,0 +1,15 @@
+[
+  {
+    "modid": "accurateblockplacement",
+    "name": "Accurate Block Placement",
+    "description": "Build at super speed with your bare hands! Hold right-click to place blocks rapidly without double-placing on the same spot.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "authorList": ["Clayborn", "Flourick", "KadTheHunter", "schwar"],
+    "credits": "Original mod by Clayborn. Fabric port by Flourick. Forge port by KadTheHunter. 1.12.2 port by schwar.",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": ["mixinbooter"]
+  }
+]
