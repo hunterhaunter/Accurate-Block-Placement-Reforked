@@ -1,8 +1,8 @@
 # Accurate Block Placement Forge Port
 
-A Forge port of [Accurate Block Placement Reborn](https://modrinth.com/mod/accurate-block-placement-reborn) for Minecraft 1.20.1.
+A Forge port of [Accurate Block Placement Reborn](https://modrinth.com/mod/accurate-block-placement-reborn) for Forge.
 
-Makes block placement smarter by timing it for you. Hold your use key (usually RMB) and look at a new block — it will automatically place it no matter how fast you move. No more missed placements or double-placing on the same spot.
+Makes block placement smarter by timing it for you. Hold your use key and look at a new block — it will automatically place it no matter how fast you move. No more missed placements or double-placing on the same spot.
 
 ## Features
 
@@ -18,12 +18,6 @@ Makes block placement smarter by timing it for you. Hold your use key (usually R
 1. Install [Minecraft Forge](https://files.minecraftforge.net/) for 1.20.1
 2. Drop `accurateblockplacement-1.3.0.jar` into your `mods` folder
 3. Launch the game
-
-## Usage
-
-The mod is **enabled by default**. Hold right-click with a block item and move your crosshair — blocks place automatically as you look at new positions.
-
-To toggle between accurate and vanilla placement, bind a key in **Options > Controls > Accurate Block Placement**.
 
 ## Warning
 
