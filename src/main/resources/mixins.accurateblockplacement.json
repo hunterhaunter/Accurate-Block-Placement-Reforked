@@ -6,8 +6,7 @@
   "refmap": "mixins.accurateblockplacement.refmap.json",
   "client": [
     "EntityRendererMixin",
-    "MinecraftMixin",
-    "KeyBindingMixin"
+    "MinecraftMixin"
   ],
   "injectors": {
     "defaultRequire": 1

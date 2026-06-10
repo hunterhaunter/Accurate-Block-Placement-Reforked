@@ -2,7 +2,6 @@ package net.clayborn.accurateblockplacement.mixin;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import net.clayborn.accurateblockplacement.AccurateBlockPlacement;
 import net.clayborn.accurateblockplacement.IMinecraftAccessor;
@@ -23,6 +22,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import org.lwjgl.input.Mouse;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -48,11 +48,11 @@ public abstract class EntityRendererMixin {
     @Unique
     private ArrayList<RayTraceResult> backFillList = new ArrayList<RayTraceResult>();
     @Unique
+    private Vec3d lastFreshPressMouseRatio = null;
+    @Unique
     private Item lastItemInUse = null;
     @Unique
     private EnumHand handOfCurrentItemInUse;
-    @Unique
-    private boolean wasUseKeyDown = false;
 
     @Unique
     private Item accurateblockplacement$getItemInUse(Minecraft mc) {
@@ -154,7 +154,7 @@ public abstract class EntityRendererMixin {
             this.autoRepeatWaitingOnCooldown = true;
             this.backFillList.clear();
             this.lastItemInUse = null;
-            this.wasUseKeyDown = false;
+            this.lastFreshPressMouseRatio = null;
             return;
         }
 
@@ -167,9 +167,8 @@ public abstract class EntityRendererMixin {
 
         AccurateBlockPlacement.disableNormalItemUse = false;
 
-        boolean useKeyDown = mc.gameSettings.keyBindUseItem.isKeyDown();
-        boolean freshKeyPress = useKeyDown && !this.wasUseKeyDown;
-        this.wasUseKeyDown = useKeyDown;
+        boolean freshKeyPress = AccurateBlockPlacement.freshPressThisTick;
+        AccurateBlockPlacement.freshPressThisTick = false;
 
         Item currentItem = accurateblockplacement$getItemInUse(mc);
 
@@ -180,6 +179,10 @@ public abstract class EntityRendererMixin {
             this.autoRepeatWaitingOnCooldown = true;
             this.backFillList.clear();
             this.lastItemInUse = currentItem;
+            this.lastFreshPressMouseRatio = (mc.displayWidth > 0 && mc.displayHeight > 0)
+                    ? new Vec3d(Mouse.getX() / (double) mc.displayWidth,
+                                Mouse.getY() / (double) mc.displayHeight, 0.0)
+                    : null;
         }
 
         if (currentItem == null) {
@@ -261,16 +264,28 @@ public abstract class EntityRendererMixin {
                             && Math.abs(facingAxisPlayerLastPos - facingAxisLastPlacedPos)
                             < Math.abs(facingAxisPlayerPos - facingAxisLastPlacedPos));
 
-            boolean isOnCooldown = mcAccessor.accurateblockplacement_getRightClickDelay() > 0;
+            Vec3d currentMouseRatio = null;
+            if (mc.displayWidth > 0 && mc.displayHeight > 0) {
+                currentMouseRatio = new Vec3d(
+                        Mouse.getX() / (double) mc.displayWidth,
+                        Mouse.getY() / (double) mc.displayHeight,
+                        0.0);
+            }
+
+            boolean hasMouseMoved = currentMouseRatio != null
+                    && this.lastFreshPressMouseRatio != null
+                    && this.lastFreshPressMouseRatio.distanceTo(currentMouseRatio) >= 0.1;
+
+            boolean isOnCooldown = this.autoRepeatWaitingOnCooldown
+                    && mcAccessor.accurateblockplacement_getRightClickDelay() > 0
+                    && !hasMouseMoved;
 
             if (this.lastItemInUse == currentItem) {
-                if (!freshKeyPress && isPlacementTargetFresh && !isOnCooldown) {
-                    if (this.autoRepeatWaitingOnCooldown) {
+                if (freshKeyPress || (isPlacementTargetFresh && !isOnCooldown)) {
+                    if (this.autoRepeatWaitingOnCooldown && !freshKeyPress) {
                         this.autoRepeatWaitingOnCooldown = false;
                         RayTraceResult currentHitResult = mc.objectMouseOver;
-                        Iterator<RayTraceResult> iterator = this.backFillList.iterator();
-                        while (iterator.hasNext()) {
-                            RayTraceResult prevHitResult = iterator.next();
+                        for (RayTraceResult prevHitResult : this.backFillList) {
                             mc.objectMouseOver = prevHitResult;
                             mcAccessor.accurateblockplacement_doItemUseBypassDisable();
                         }
@@ -278,49 +293,45 @@ public abstract class EntityRendererMixin {
                         mc.objectMouseOver = currentHitResult;
                     }
 
-                    boolean runOnceFlag = true;
-                    while (runOnceFlag) {
-                        mcAccessor.accurateblockplacement_doItemUseBypassDisable();
-                        if (!oldBlock.equals(mc.world.getBlockState(placePos).getBlock())) {
-                            this.lastPlacedBlockPos = placePos;
-                            if (this.lastPlayerPlacedBlockPos == null) {
-                                this.lastPlayerPlacedBlockPos = mc.player.getPositionVector();
-                            } else {
-                                Vec3i dirVec = clickedFace.getDirectionVec();
-                                Vec3d normal = new Vec3d(dirVec.getX(), dirVec.getY(), dirVec.getZ());
-                                Vec3d summedLastPlayerPos = this.lastPlayerPlacedBlockPos.add(normal);
-                                Vec3d newLastPlayerPlacedPos = null;
-                                switch (clickedFace.getAxis()) {
-                                    case X:
-                                        newLastPlayerPlacedPos = new Vec3d(
-                                                summedLastPlayerPos.x,
-                                                mc.player.getPositionVector().y,
-                                                mc.player.getPositionVector().z);
-                                        break;
-                                    case Y:
-                                        newLastPlayerPlacedPos = new Vec3d(
-                                                mc.player.getPositionVector().x,
-                                                summedLastPlayerPos.y,
-                                                mc.player.getPositionVector().z);
-                                        break;
-                                    case Z:
-                                        newLastPlayerPlacedPos = new Vec3d(
-                                                mc.player.getPositionVector().x,
-                                                mc.player.getPositionVector().y,
-                                                summedLastPlayerPos.z);
-                                        break;
-                                }
-                                this.lastPlayerPlacedBlockPos = newLastPlayerPlacedPos;
+                    mcAccessor.accurateblockplacement_doItemUseBypassDisable();
+                    if (!oldBlock.equals(mc.world.getBlockState(placePos).getBlock())) {
+                        this.lastPlacedBlockPos = placePos;
+                        if (this.lastPlayerPlacedBlockPos == null) {
+                            this.lastPlayerPlacedBlockPos = mc.player.getPositionVector();
+                        } else {
+                            Vec3i dirVec = clickedFace.getDirectionVec();
+                            Vec3d normal = new Vec3d(dirVec.getX(), dirVec.getY(), dirVec.getZ());
+                            Vec3d summedLastPlayerPos = this.lastPlayerPlacedBlockPos.add(normal);
+                            Vec3d newLastPlayerPlacedPos = null;
+                            switch (clickedFace.getAxis()) {
+                                case X:
+                                    newLastPlayerPlacedPos = new Vec3d(
+                                            summedLastPlayerPos.x,
+                                            mc.player.getPositionVector().y,
+                                            mc.player.getPositionVector().z);
+                                    break;
+                                case Y:
+                                    newLastPlayerPlacedPos = new Vec3d(
+                                            mc.player.getPositionVector().x,
+                                            summedLastPlayerPos.y,
+                                            mc.player.getPositionVector().z);
+                                    break;
+                                case Z:
+                                    newLastPlayerPlacedPos = new Vec3d(
+                                            mc.player.getPositionVector().x,
+                                            mc.player.getPositionVector().y,
+                                            summedLastPlayerPos.z);
+                                    break;
                             }
+                            this.lastPlayerPlacedBlockPos = newLastPlayerPlacedPos;
                         }
-                        runOnceFlag = false;
                     }
-                } else if (!freshKeyPress && isPlacementTargetFresh && this.autoRepeatWaitingOnCooldown) {
+                } else if (isPlacementTargetFresh) {
                     this.backFillList.add(mc.objectMouseOver);
                 }
             }
 
-            this.lastSeenBlockPos = rayTrace.getBlockPos();
+            this.lastSeenBlockPos = blockHitPos;
         }
     }
 }

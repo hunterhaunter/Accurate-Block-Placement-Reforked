@@ -20,6 +20,7 @@ public class AccurateBlockPlacement {
 
     public static Boolean disableNormalItemUse = false;
     public static boolean isEnabled = true;
+    public static boolean freshPressThisTick = false;
 
     private static KeyBinding toggleKey;
 

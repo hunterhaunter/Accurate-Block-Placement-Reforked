@@ -4,3 +4,7 @@ run/
 *.iml
 .idea/
 out/
+
+SPEC_BUGFIX.md
+NOTES.md
+runclient.log
