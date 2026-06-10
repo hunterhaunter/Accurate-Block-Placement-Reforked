@@ -1,43 +1,34 @@
-# Accurate Block Placement (1.12.2)
+# Accurate Block Placement 1.12.2
 
-Backport of [Accurate Block Placement Reborn](https://github.com/hunterhaunter/Accurate-Block-Placement-Forge-Port) to Minecraft Forge 1.12.2.
+A 1.12.2 backport of [Accurate Block Placement Reborn](https://modrinth.com/mod/accurate-block-placement-reborn), based on the [Forge 1.20.1 port](https://github.com/hunterhaunter/Accurate-Block-Placement-Forge-Port).
 
-Build at super speed with your bare hands! Hold right-click with a block in hand and sweep your crosshair — blocks place instantly on each new position without ever double-placing on the same spot.
+Makes block placement smarter by timing it for you. Hold your use key and look at a new block — it will automatically place it no matter how fast you move. No more missed placements or double-placing on the same spot.
 
 ## Features
 
-- **Drag placement** — hold right-click and move the crosshair; every new position places immediately, ignoring the vanilla 4-tick right-click delay
-- **No double-placing** — each block position places exactly once until you move ≥1 block along the placement axis
-- **Backfill** — positions swept over during the initial cooldown are queued and placed the moment the spree engages
-- **Jump-pillaring works** — player-movement tracking re-arms placement on the same target after you move a full block
-- **Plays nice** — chests, furnaces and other activatable blocks still open normally (sneak-place against them works); food and items with custom use actions are untouched
-- **Toggle keybind** — switch between accurate and vanilla placement (unbound by default, set in Controls)
-
-## Requirements
-
-- Minecraft 1.12.2 + Forge 14.23.5.x
-- [MixinBooter](https://www.curseforge.com/minecraft/mc-mods/mixin-booter) 9.0+
-
-Client-side only — safe to join any server.
+- **Automatic rapid placement** — Hold right-click and move your crosshair to place blocks at full speed without precise click timing
+- **No double-placement** — Tracks block positions so you never place two blocks on the same spot
+- **Backfill support** — Blocks skipped during cooldown are queued and placed when the cooldown expires
+- **Movement detection** — Detects when you've moved past a block and allows re-placing on the same position from a new angle
+- **Toggle keybind** — Switch between accurate and vanilla placement modes (default: unbound, configure in Controls)
+- **Client-side only** — No server installation required
 
 ## Installation
 
-Drop the release jar and MixinBooter into your `mods` folder.
+1. Install [Minecraft Forge](https://files.minecraftforge.net/) for 1.12.2
+2. Install [MixinBooter](https://www.curseforge.com/minecraft/mc-mods/mixin-booter) 9.0 or newer
+3. Drop `accurateblockplacement-1.3.0.jar` into your `mods` folder
+4. Launch the game
 
-## Compatibility
+## Warning
 
-Patches are pure Mixin `@Inject`s (no `@Overwrite`, no vanilla class or registry replacement), so other coremods and mixin mods targeting `Minecraft`/`EntityRenderer` coexist cleanly. Placement goes through the vanilla right-click path, so Forge `RightClickBlock`/`RightClickItem` events (protection mods, map utilities, etc.) fire for every placed block. Modded blocks with custom right-click behavior are automatically deferred to.
-
-## Building
-
-```
-./gradlew build
-```
-
-Jar lands in `build/libs/`. Built with RetroFuturaGradle, MCP stable_39, Java 8.
+This mod may be considered a cheat on some servers and could be detected as such. Verify server rules before using it.
 
 ## Credits
 
-- Original Fabric mod by [Clayborn](https://github.com/Clayborn), maintained by Flourick
-- Forge 1.20.1 port by KadTheHunter
-- 1.12.2 backport by schwar
+Original mod by **Clayborn**, continued by **Flourick**, **KadTheHunter**, and **schwar**.  
+Forge port by **XY**.
+
+## License
+
+MIT
