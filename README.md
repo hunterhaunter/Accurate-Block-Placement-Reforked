@@ -2,6 +2,8 @@
 
 A Forge port of [Accurate Block Placement Reborn](https://modrinth.com/mod/accurate-block-placement-reborn) for Forge.
 
+Looking for 1.12.2? See the [`1.12.2` branch](https://github.com/hunterhaunter/Accurate-Block-Placement-Forge-Port/tree/1.12.2).
+
 Makes block placement smarter by timing it for you. Hold your use key and look at a new block — it will automatically place it no matter how fast you move. No more missed placements or double-placing on the same spot.
 
 ## Features
