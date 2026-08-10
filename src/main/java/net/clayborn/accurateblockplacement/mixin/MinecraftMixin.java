@@ -45,7 +45,7 @@ public abstract class MinecraftMixin implements IMinecraftAccessor {
      * processes keybind clicks, so the EntityRenderer mixin (which consumes
      * freshPressThisTick) both places the first block itself and raises
      * disableNormalItemUse in time to cancel vanilla's rightClickMouse for the
-     * same click — mirroring the 1.20.1 pick()-before-handleKeybinds ordering.
+     * same click, mirroring the 1.20.1 pick()-before-handleKeybinds ordering.
      */
     @Inject(method = "runTick", at = @At("HEAD"))
     private void onRunTickHead(CallbackInfo ci) {

@@ -8,3 +8,22 @@ out/
 SPEC_BUGFIX.md
 NOTES.md
 runclient.log
+
+# Build
+bin/
+
+# Run
+*.log
+
+# IDE
+.vscode/
+.settings/
+.classpath
+.project
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Internal working notes (not shipped)
+_docs/
