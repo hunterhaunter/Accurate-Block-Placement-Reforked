@@ -6,8 +6,8 @@
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "",
-    "authorList": ["Clayborn", "Flourick", "KadTheHunter", "schwar"],
-    "credits": "Original mod by Clayborn. Fabric port by Flourick. Forge port by KadTheHunter. 1.12.2 port by schwar.",
+    "authorList": ["Clayborn", "Flourick", "KadTheHunter", "schwar", "xy (1.12.2 port)"],
+    "credits": "Original mod by Clayborn. Fabric port by Flourick. Forge port by KadTheHunter and schwar. 1.12.2 port by xy.",
     "logoFile": "",
     "screenshots": [],
     "dependencies": ["mixinbooter"]
