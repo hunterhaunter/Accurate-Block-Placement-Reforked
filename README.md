@@ -1,35 +1,40 @@
-# Accurate Block Placement Forge Port
+# Accurate Block Placement
 
-A Forge port of [Accurate Block Placement Reborn](https://modrinth.com/mod/accurate-block-placement-reborn) for Forge.
+A 1.20.1 port of [Accurate Block Placement Reborn](https://modrinth.com/mod/accurate-block-placement-reborn) by Clayborn, Flourick, KadTheHunter and schwar.
 
-Looking for 1.12.2? See the [`1.12.2` branch](https://github.com/hunterhaunter/Accurate-Block-Placement-Forge-Port/tree/1.12.2).
+Hold your use key and look at a new block and it places itself, however fast you move.
+No missed placements, no double-placing on the same spot.
 
-Makes block placement smarter by timing it for you. Hold your use key and look at a new block — it will automatically place it no matter how fast you move. No more missed placements or double-placing on the same spot.
+Looking for 1.12.2? See the [`1.12.2` branch](https://github.com/haunterdev/Accurate-Block-Placement-Reforked/tree/1.12.2).
 
 ## Features
 
-- **Automatic rapid placement** — Hold right-click and move your crosshair to place blocks at full speed without precise click timing
-- **No double-placement** — Tracks block positions so you never place two blocks on the same spot
-- **Backfill support** — Blocks skipped during cooldown are queued and placed when the cooldown expires
-- **Movement detection** — Detects when you've moved past a block and allows re-placing on the same position from a new angle
-- **Toggle keybind** — Switch between accurate and vanilla placement modes (default: unbound, configure in Controls)
-- **Client-side only** — No server installation required
+- Automatic rapid placement. Hold right-click and move your crosshair to place at full
+  speed, without timing the clicks.
+- Position tracking, so two blocks never land on the same spot.
+- Backfill. Blocks skipped during the cooldown are queued and placed once it expires.
+- Movement detection, so moving past a block lets you place on that position again from a
+  new angle.
+- A toggle keybind between accurate and vanilla placement (unbound by default, set it in
+  Controls).
+
+Client side.
+
+## Requirements
+
+- Minecraft 1.20.1
+- Forge 47.4.10 or newer
 
 ## Installation
 
-1. Install [Minecraft Forge](https://files.minecraftforge.net/) for 1.20.1
-2. Drop `accurateblockplacement-1.3.0.jar` into your `mods` folder
-3. Launch the game
+1. Install Forge for 1.20.1.
+2. Put `accurateblockplacement-1.3.0.jar` in your `mods` folder.
 
 ## Warning
 
-This mod may be considered a cheat on some servers and could be detected as such. Verify server rules before using it.
-
-## Credits
-
-Original mod by **Clayborn**, continued by **Flourick**, **KadTheHunter**, and **schwar**.  
-Forge port by **XY**.
+Some servers treat this as a cheat and may detect it. Check the server rules before using
+it.
 
 ## License
 
-MIT
+MIT. Original by Clayborn, continued by Flourick, KadTheHunter and schwar.
